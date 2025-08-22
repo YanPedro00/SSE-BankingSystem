@@ -15,4 +15,10 @@ class FinancialCalculator {
         interest = interest.multiply(bigTime);
         return interest;
     }
+
+    public static BigDecimal simpleInterestTotal(BigDecimal amount, BigDecimal rate, int time){
+        BigDecimal interest = simpleInterest(amount, rate, time);
+        BigDecimal completeInterest = amount.add(interest);
+        return completeInterest;
+    }
 }
