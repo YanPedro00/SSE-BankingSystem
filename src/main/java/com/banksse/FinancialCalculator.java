@@ -1,11 +1,18 @@
 package com.banksse;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 class FinancialCalculator {
 
-    public BigDecimal simpleInterest(BigDecimal amount, BigDecimal rate, int time)
+    public static BigDecimal simpleInterest(BigDecimal amount, BigDecimal rate, int time)
     {
-        BigDecimal interest = new BigDecimal("0.0");
+        BigDecimal bigTime = new BigDecimal(time);
+        BigDecimal interest = amount.multiply(rate);
+        MathContext m = new MathContext(2);
+        interest = interest.round(m);
+        interest = interest.multiply(bigTime);
         return interest;
     }
 }

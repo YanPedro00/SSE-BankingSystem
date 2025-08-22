@@ -10,5 +10,13 @@ class FinancialCalculatorTest {
 
     @Test
     void shouldCalculateSimpleInterest() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        BigDecimal amount = new BigDecimal("1000");
+        BigDecimal rate = new BigDecimal(0.05);
+        int time = 2;
+        BigDecimal interestExpected = new BigDecimal("100");
+        BigDecimal interest = FinancialCalculator.simpleInterest(amount, rate, time);
+
+        assertEquals(interestExpected, interest);
     }
 }
