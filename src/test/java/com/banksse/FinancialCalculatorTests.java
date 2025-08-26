@@ -32,4 +32,25 @@ class FinancialCalculatorTest {
 
         assertEquals(interestExpected, interest);
     }
+
+    @Test
+    void shouldCalculateCompoundInterest() {
+       FinancialCalculator calculator = new FinancialCalculator();
+       BigDecimal principal = new BigDecimal("1000");
+       BigDecimal rate = new BigDecimal("0.05");
+       int years = 12;
+       BigDecimal interestExpected = new BigDecimal("795.86");
+       BigDecimal actualInterest = calculator.compoundInterest(principal, rate, years);
+       assertEquals(interestExpected, actualInterest);
+    }
+
+    void shouldCalculateCompoundInterestTotal(){
+        FinancialCalculator calculator = new FinancialCalculator();
+        BigDecimal principal = new BigDecimal("1000");
+        BigDecimal rate = new BigDecimal("0.05");
+        int years = 12;
+        BigDecimal amountExpected = new BigDecimal("1795.86");
+        BigDecimal actualAmount = calculator.compoundInterestTotal(principal, rate, years);
+        assertEquals(amountExpected, actualAmount);
+    }
 }
