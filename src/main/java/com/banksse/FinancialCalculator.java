@@ -21,4 +21,21 @@ class FinancialCalculator {
         BigDecimal completeInterest = amount.add(interest);
         return completeInterest;
     }
+
+    public BigDecimal compoundInterest(BigDecimal principal, BigDecimal rate, int years){
+        BigDecimal onePlusRate = BigDecimal.ONE.add(rate);
+        BigDecimal factor = onePlusRate.pow(years);
+        BigDecimal amount = principal.multiply(factor);
+
+
+        amount = amount.setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal interest = amount.subtract(principal);
+        return interest;
+    }
+
+    public BigDecimal compoundInterestTotal(BigDecimal principal, BigDecimal rate, int years){
+        BigDecimal interest = compoundInterest(principal, rate, years);
+        BigDecimal amount = principal.add(interest);
+        return amount;
+    }
 }
