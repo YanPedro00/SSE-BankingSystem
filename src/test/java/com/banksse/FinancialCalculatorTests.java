@@ -10,7 +10,6 @@ class FinancialCalculatorTest {
 
     @Test
     void shouldCalculateSimpleInterest() {
-        FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal amount = new BigDecimal("1000");
         BigDecimal rate = new BigDecimal(0.05);
         int time = 2;
@@ -22,7 +21,6 @@ class FinancialCalculatorTest {
 
     @Test
     void shouldCalculateSimpleInterestTotal() {
-        FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal amount = new BigDecimal("1000");
         BigDecimal rate = new BigDecimal(0.05);
         int time = 2;
