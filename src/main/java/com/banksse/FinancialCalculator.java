@@ -1,25 +1,20 @@
 package com.banksse;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
 import java.math.RoundingMode;
 
 class FinancialCalculator {
 
-    public static BigDecimal simpleInterest(BigDecimal amount, BigDecimal rate, int time)
+    public BigDecimal simpleInterest(BigDecimal principal, BigDecimal rate, int years)
     {
-        BigDecimal bigTime = new BigDecimal(time);
-        BigDecimal interest = amount.multiply(rate);
-        MathContext m = new MathContext(2);
-        interest = interest.round(m);
-        interest = interest.multiply(bigTime);
+        BigDecimal interest = principal.multiply(rate).multiply(BigDecimal.valueOf(years));
+        interest = interest.setScale(2, RoundingMode.HALF_EVEN);
         return interest;
     }
 
-    public static BigDecimal simpleInterestTotal(BigDecimal amount, BigDecimal rate, int time){
-        BigDecimal interest = simpleInterest(amount, rate, time);
-        BigDecimal completeInterest = amount.add(interest);
-        return completeInterest;
+    public BigDecimal simpleInterestTotal(BigDecimal principal, BigDecimal rate, int years){
+        BigDecimal interest = simpleInterest(principal, rate, years);
+        BigDecimal amount = principal.add(interest);
+        return amount;
     }
 
     public BigDecimal compoundInterest(BigDecimal principal, BigDecimal rate, int years){

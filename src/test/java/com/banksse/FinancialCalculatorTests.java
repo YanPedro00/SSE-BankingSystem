@@ -1,7 +1,5 @@
 package com.banksse;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,26 +9,26 @@ class FinancialCalculatorTest {
     @Test
     void shouldCalculateSimpleInterest() {
         FinancialCalculator calculator = new FinancialCalculator();
-        BigDecimal amount = new BigDecimal("1000");
-        BigDecimal rate = new BigDecimal(0.05);
-        int time = 2;
-        BigDecimal interestExpected = new BigDecimal("100");
-        BigDecimal interest = FinancialCalculator.simpleInterest(amount, rate, time);
+        BigDecimal principal = new BigDecimal("1000.00");
+        BigDecimal rate = new BigDecimal("0.05");
+        int years = 2;
+        BigDecimal interestExpected = new BigDecimal("100.00");
+        BigDecimal actualInterest = calculator.simpleInterest(principal, rate, years);
 
-        assertEquals(interestExpected, interest);
+        assertEquals(interestExpected, actualInterest);
     }
 
     @Test
     void shouldCalculateSimpleInterestTotal() {
         FinancialCalculator calculator = new FinancialCalculator();
-        BigDecimal amount = new BigDecimal("1000");
-        BigDecimal rate = new BigDecimal(0.05);
-        int time = 2;
-        BigDecimal interestExpected = new BigDecimal("1100");
+        BigDecimal principal = new BigDecimal("1000.00");
+        BigDecimal rate = new BigDecimal("0.05");
+        int years = 2;
+        BigDecimal interestExpected = new BigDecimal("1100.00");
 
-        BigDecimal interest = FinancialCalculator.simpleInterestTotal(amount, rate, time);
+        BigDecimal actualAmount = calculator.simpleInterestTotal(principal, rate, years);
 
-        assertEquals(interestExpected, interest);
+        assertEquals(interestExpected, actualAmount);
     }
 
     @Test
@@ -44,6 +42,7 @@ class FinancialCalculatorTest {
        assertEquals(interestExpected, actualInterest);
     }
 
+    @Test
     void shouldCalculateCompoundInterestTotal(){
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal principal = new BigDecimal("1000");
