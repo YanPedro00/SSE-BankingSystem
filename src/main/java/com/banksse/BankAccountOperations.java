@@ -10,12 +10,11 @@ import java.math.BigDecimal;
 //}
 
 
-public class BankAccount {
+public class BankAccountOperations {
     private String agency;
     private static BigDecimal balance;
     private static BigDecimal sequential = BigDecimal.valueOf(1);
     private static final Integer standardAgency = 1;
-    private BigDecimal account;
 
     public static BigDecimal account(BigDecimal initialBalance) {
        balance = initialBalance;

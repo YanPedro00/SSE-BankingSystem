@@ -7,16 +7,28 @@ import java.math.BigDecimal;
 public class BankOperationsTest {
 
     @Test
-    void UserDetailsIsCompleted() {
+    void BankAccountOperations() {
         BigDecimal money = BigDecimal.valueOf(1000);
-        BigDecimal banking = BankAccount.account(money);
+        BigDecimal banking = BankAccountOperations.account(money);
 
        assertEquals(BigDecimal.valueOf(1000), banking);
-       banking = BankAccount.withdraw(BigDecimal.valueOf(100));
+       banking = BankAccountOperations.withdraw(BigDecimal.valueOf(100));
        assertEquals(BigDecimal.valueOf(900), banking);
-       banking = BankAccount.deposit(BigDecimal.valueOf(300));
+       banking = BankAccountOperations.deposit(BigDecimal.valueOf(300));
        assertEquals(BigDecimal.valueOf(1200), banking);
 
-       assertEquals(BankAccount.printBalance(), banking);
+       assertEquals(BankAccountOperations.printBalance(), banking);
+    }
+
+    @Test
+    void ClientInformation() {
+
+
+        BankUserInformation newUser = new BankUserInformation("Paul Phoenix", "993.123.001-94", 87023230, "1990-01-01");
+
+        assertInstanceOf(BankUserInformation.class, newUser);
+
+
+
     }
 }
