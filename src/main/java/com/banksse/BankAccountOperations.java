@@ -17,19 +17,32 @@ public class BankAccountOperations {
     private static final Integer standardAgency = 1;
 
     public static BigDecimal account(BigDecimal initialBalance) {
-       balance = initialBalance;
-        return balance;
+        try {
+            balance = initialBalance;
+        } catch (Exception e) {
+            System.out.println("Error while processing account function");
+        }
+        return initialBalance;
     }
 
 
+
 public static BigDecimal withdraw(BigDecimal value){
-    balance = balance.subtract(value);
+        try {
+            balance = balance.subtract(value);
+        } catch (Exception e) {
+            System.out.println("Error while processing withdraw action");
+        }
     return balance;
 }
 
 
 public static BigDecimal deposit(BigDecimal value) {
-    balance = balance.add(value);
+        try {
+            balance = balance.add(value);
+        } catch (Exception e) {
+            System.out.println("Error while processing deposit action");
+        }
     return  balance;
 }
 
