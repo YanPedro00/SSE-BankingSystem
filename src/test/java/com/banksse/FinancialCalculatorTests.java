@@ -25,7 +25,6 @@ class FinancialCalculatorTest {
         BigDecimal rate = new BigDecimal("0.05");
         int years = 2;
         BigDecimal amountExpected = new BigDecimal("1100.00");
-
         BigDecimal actualAmount = calculator.simpleInterestTotal(principal, rate, years);
 
         assertEquals(amountExpected, actualAmount);
@@ -40,6 +39,7 @@ class FinancialCalculatorTest {
        int years = 12;
        BigDecimal interestExpected = new BigDecimal("795.86");
        BigDecimal actualInterest = calculator.compoundInterest(principal, rate, years);
+
        assertEquals(interestExpected, actualInterest);
     }
 
@@ -51,6 +51,7 @@ class FinancialCalculatorTest {
         int years = 12;
         BigDecimal amountExpected = new BigDecimal("1795.86");
         BigDecimal actualAmount = calculator.compoundInterestTotal(principal, rate, years);
+
         assertEquals(amountExpected, actualAmount);
     }
 
@@ -63,6 +64,7 @@ class FinancialCalculatorTest {
         int years = 1;
         BigDecimal discountExpected = new BigDecimal("50.00");
         BigDecimal actualDiscount = calculator.discount(futureValue, rate, years);
+
         assertEquals(discountExpected, actualDiscount);
     }
 
@@ -74,6 +76,7 @@ class FinancialCalculatorTest {
         int years = 1;
         BigDecimal valueExpected = new BigDecimal("950.00");
         BigDecimal actualValue = calculator.applyDiscount(futureValue, rate, years);
+
         assertEquals(valueExpected, actualValue);
     }
 
@@ -158,5 +161,17 @@ class FinancialCalculatorTest {
         String expectedMessage = "Future value and rate must be positive";
 
         assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnZeroWhenDiscountExceedsFutureValue() throws InvalidFinancialParameterException {
+        FinancialCalculator calculator = new FinancialCalculator();
+        BigDecimal futureValue = new BigDecimal("1000.00");
+        BigDecimal rate = new BigDecimal("0.5");
+        int years = 3;
+
+        BigDecimal actualValue = calculator.applyDiscount(futureValue, rate, years);
+
+        assertEquals(BigDecimal.ZERO, actualValue);
     }
 }

@@ -65,6 +65,11 @@ class FinancialCalculator {
     public BigDecimal applyDiscount(BigDecimal futureValue, BigDecimal rate, int years) throws InvalidFinancialParameterException {
         BigDecimal discountValue = discount(futureValue, rate, years);
         BigDecimal discountApplied = futureValue.subtract(discountValue);
+
+        if (discountApplied.compareTo(BigDecimal.ZERO) < 0) {
+            return BigDecimal.ZERO;
+        }
+
         discountApplied = discountApplied.setScale(2, RoundingMode.HALF_UP);
         return discountApplied;
     }
