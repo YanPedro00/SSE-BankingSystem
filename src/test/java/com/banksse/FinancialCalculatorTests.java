@@ -8,7 +8,7 @@ class FinancialCalculatorTest {
 
     // Simple Interest
     @Test
-    void shouldCalculateSimpleInterest() {
+    void shouldCalculateSimpleInterest() throws InvalidFinancialParameterException {
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal principal = new BigDecimal("1000.00");
         BigDecimal rate = new BigDecimal("0.05");
@@ -20,7 +20,7 @@ class FinancialCalculatorTest {
     }
 
     @Test
-    void shouldCalculateSimpleInterestTotal() {
+    void shouldCalculateSimpleInterestTotal() throws InvalidFinancialParameterException {
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal principal = new BigDecimal("1000.00");
         BigDecimal rate = new BigDecimal("0.05");
@@ -34,7 +34,7 @@ class FinancialCalculatorTest {
 
     //Compound interest
     @Test
-    void shouldCalculateCompoundInterest() {
+    void shouldCalculateCompoundInterest() throws InvalidFinancialParameterException {
        FinancialCalculator calculator = new FinancialCalculator();
        BigDecimal principal = new BigDecimal("1000");
        BigDecimal rate = new BigDecimal("0.05");
@@ -45,7 +45,7 @@ class FinancialCalculatorTest {
     }
 
     @Test
-    void shouldCalculateCompoundInterestTotal(){
+    void shouldCalculateCompoundInterestTotal() throws InvalidFinancialParameterException {
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal principal = new BigDecimal("1000");
         BigDecimal rate = new BigDecimal("0.05");
@@ -57,7 +57,7 @@ class FinancialCalculatorTest {
 
     //Discount
     @Test
-    void shouldCalculateDiscount(){
+    void shouldCalculateDiscount() throws InvalidFinancialParameterException {
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal futureValue = new BigDecimal("1000.00");
         BigDecimal rate = new BigDecimal("0.05");
@@ -68,8 +68,7 @@ class FinancialCalculatorTest {
     }
 
     @Test
-    void shouldCalculateApplyDiscount()
-    {
+    void shouldCalculateApplyDiscount() throws InvalidFinancialParameterException {
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal futureValue = new BigDecimal("1000.00");
         BigDecimal rate = new BigDecimal("0.05");
@@ -77,5 +76,71 @@ class FinancialCalculatorTest {
         BigDecimal valueExpected = new BigDecimal("950.00");
         BigDecimal actualValue = calculator.applyDiscount(futureValue, rate, years);
         assertEquals(valueExpected, actualValue);
+    }
+
+    // Exception Tests
+    @Test
+    void shouldThrowExceptionForNullPrincipal() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        BigDecimal rate = new BigDecimal("0.05");
+        int years = 2;
+
+        InvalidFinancialParameterException exception = assertThrows(
+            InvalidFinancialParameterException.class,
+            () -> calculator.simpleInterest(null, rate, years)
+        );
+        
+        assertEquals("Principal and rate cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionForNullRate() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        BigDecimal principal = new BigDecimal("1000.00");
+        int years = 2;
+
+        InvalidFinancialParameterException exception = assertThrows(
+            InvalidFinancialParameterException.class,
+            () -> calculator.compoundInterest(principal, null, years)
+        );
+        
+        assertEquals("Principal and rate cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionForNullFutureValue() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        BigDecimal rate = new BigDecimal("0.05");
+        int years = 1;
+
+        InvalidFinancialParameterException exception = assertThrows(
+            InvalidFinancialParameterException.class,
+            () -> calculator.discount(null, rate, years)
+        );
+        
+        assertEquals("Future value and rate cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void shouldValidateInputsInAllMethods() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        
+        assertThrows(InvalidFinancialParameterException.class,
+            () -> calculator.simpleInterest(null, new BigDecimal("0.05"), 1));
+        
+        assertThrows(InvalidFinancialParameterException.class, 
+            () -> calculator.simpleInterestTotal(new BigDecimal("1000"), null, 1));
+        
+        assertThrows(InvalidFinancialParameterException.class, 
+            () -> calculator.compoundInterest(null, new BigDecimal("0.05"), 1));
+        
+        assertThrows(InvalidFinancialParameterException.class, 
+            () -> calculator.compoundInterestTotal(new BigDecimal("1000"), null, 1));
+        
+        assertThrows(InvalidFinancialParameterException.class, 
+            () -> calculator.discount(null, new BigDecimal("0.05"), 1));
+        
+        assertThrows(InvalidFinancialParameterException.class, 
+            () -> calculator.applyDiscount(new BigDecimal("1000"), null, 1));
     }
 }
