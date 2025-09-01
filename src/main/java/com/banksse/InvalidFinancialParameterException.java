@@ -1,7 +1,7 @@
 package com.banksse;
 
 /**
- * Simple exception for invalid financial parameters
+ * Financial Calculator Exceptions
  */
 public class InvalidFinancialParameterException extends Exception {
 

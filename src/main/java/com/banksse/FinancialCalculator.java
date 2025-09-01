@@ -1,5 +1,6 @@
 package com.banksse;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 class FinancialCalculator {
@@ -8,11 +9,17 @@ class FinancialCalculator {
         if (principal == null || rate == null) {
             throw new InvalidFinancialParameterException("Principal and rate cannot be null");
         }
+        if (principal.compareTo(BigDecimal.ZERO) <= 0 || rate.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidFinancialParameterException("Principal and rate must be positive");
+        }
     }
 
     private void validateDiscountInputs(BigDecimal futureValue, BigDecimal rate) throws InvalidFinancialParameterException {
         if (futureValue == null || rate == null) {
             throw new InvalidFinancialParameterException("Future value and rate cannot be null");
+        }
+        if (futureValue.compareTo(BigDecimal.ZERO) <= 0 || rate.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidFinancialParameterException("Future value and rate must be positive");
         }
     }
 

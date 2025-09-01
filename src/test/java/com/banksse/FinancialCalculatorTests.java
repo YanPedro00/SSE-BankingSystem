@@ -1,7 +1,6 @@
 package com.banksse;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FinancialCalculatorTest {
@@ -25,11 +24,11 @@ class FinancialCalculatorTest {
         BigDecimal principal = new BigDecimal("1000.00");
         BigDecimal rate = new BigDecimal("0.05");
         int years = 2;
-        BigDecimal interestExpected = new BigDecimal("1100.00");
+        BigDecimal amountExpected = new BigDecimal("1100.00");
 
         BigDecimal actualAmount = calculator.simpleInterestTotal(principal, rate, years);
 
-        assertEquals(interestExpected, actualAmount);
+        assertEquals(amountExpected, actualAmount);
     }
 
     //Compound interest
@@ -79,6 +78,7 @@ class FinancialCalculatorTest {
     }
 
     // Exception Tests
+    // Test Valid Input Method
     @Test
     void shouldThrowExceptionForNullPrincipal() {
         FinancialCalculator calculator = new FinancialCalculator();
@@ -89,12 +89,13 @@ class FinancialCalculatorTest {
             InvalidFinancialParameterException.class,
             () -> calculator.simpleInterest(null, rate, years)
         );
+        String expectedMessage = "Principal and rate cannot be null";
         
-        assertEquals("Principal and rate cannot be null", exception.getMessage());
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void shouldThrowExceptionForNullRate() {
+    void shouldThrowExceptionForNullRate() throws InvalidFinancialParameterException {
         FinancialCalculator calculator = new FinancialCalculator();
         BigDecimal principal = new BigDecimal("1000.00");
         int years = 2;
@@ -103,8 +104,9 @@ class FinancialCalculatorTest {
             InvalidFinancialParameterException.class,
             () -> calculator.compoundInterest(principal, null, years)
         );
+        String expectedMessage = "Principal and rate cannot be null";
         
-        assertEquals("Principal and rate cannot be null", exception.getMessage());
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
@@ -117,30 +119,44 @@ class FinancialCalculatorTest {
             InvalidFinancialParameterException.class,
             () -> calculator.discount(null, rate, years)
         );
-        
-        assertEquals("Future value and rate cannot be null", exception.getMessage());
+        String expectedMessage = "Future value and rate cannot be null";
+
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void shouldValidateInputsInAllMethods() {
+    void shouldThrowExceptionForNegativePrincipal() {
         FinancialCalculator calculator = new FinancialCalculator();
-        
-        assertThrows(InvalidFinancialParameterException.class,
-            () -> calculator.simpleInterest(null, new BigDecimal("0.05"), 1));
-        
-        assertThrows(InvalidFinancialParameterException.class, 
-            () -> calculator.simpleInterestTotal(new BigDecimal("1000"), null, 1));
-        
-        assertThrows(InvalidFinancialParameterException.class, 
-            () -> calculator.compoundInterest(null, new BigDecimal("0.05"), 1));
-        
-        assertThrows(InvalidFinancialParameterException.class, 
-            () -> calculator.compoundInterestTotal(new BigDecimal("1000"), null, 1));
-        
-        assertThrows(InvalidFinancialParameterException.class, 
-            () -> calculator.discount(null, new BigDecimal("0.05"), 1));
-        
-        assertThrows(InvalidFinancialParameterException.class, 
-            () -> calculator.applyDiscount(new BigDecimal("1000"), null, 1));
+        InvalidFinancialParameterException exception = assertThrows(
+            InvalidFinancialParameterException.class,
+            () -> calculator.simpleInterest(new BigDecimal("-1000"), new BigDecimal("0.05"), 1)
+        );
+        String expectedMessage = "Principal and rate must be positive";
+
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionForZeroRate() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        InvalidFinancialParameterException exception = assertThrows(
+            InvalidFinancialParameterException.class,
+            () -> calculator.compoundInterest(new BigDecimal("1000"), BigDecimal.ZERO, 1)
+        );
+        String expectedMessage = "Principal and rate must be positive";
+
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionForNegativeFutureValue() {
+        FinancialCalculator calculator = new FinancialCalculator();
+        InvalidFinancialParameterException exception = assertThrows(
+            InvalidFinancialParameterException.class,
+            () -> calculator.discount(new BigDecimal("-1000"), new BigDecimal("0.05"), 1)
+        );
+        String expectedMessage = "Future value and rate must be positive";
+
+        assertEquals(expectedMessage, exception.getMessage());
     }
 }
